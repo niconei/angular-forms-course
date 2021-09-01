@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -9,18 +9,39 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginReactiveComponent implements OnInit {
 
-    form: FormGroup = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, Validators.email]}),
-      password: new FormControl('', {validators: [Validators.required, Validators.minLength(8)]}),
-    });
+  // Using FormControl
 
-  constructor() {
+    //email: FormControl = new FormControl(
+    //   '',
+    //   {validators: [Validators.required, Validators.email], updateOn: 'blur'},
+    // );
+    // password: FormControl =  new FormControl(
+    //   '',
+    //   {validators: [Validators.required, Validators.minLength(8)]}
+    // );
+
+  // Using FormBuilder
+
+    form: FormGroup = this.fb.group({
+      email: ['', {validators: [Validators.required, Validators.email], updateOn: 'blur'}],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    })
+
+  constructor(private fb: FormBuilder) {
 
 
   }
 
   ngOnInit() {
 
+  }
+
+  get email() {
+    return this.form?.controls['email'];
+  }
+
+  get password() {
+    return this.form?.controls['password'];
   }
 
 }

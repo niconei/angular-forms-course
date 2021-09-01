@@ -9,15 +9,26 @@
         <input matInput type="email" name="email"
                placeholder="Email" formControlName="email">
 
+               <mat-error *ngIf="email?.errors?.required">This field is required</mat-error>
+
+               <mat-error *ngIf="email?.errors?.email">Please enter a valid email</mat-error>
+
       </mat-form-field>
 
       <mat-form-field>
 
         <input matInput type="password" placeholder="Password" formControlName="password">
 
+        <mat-error *ngIf="password?.errors?.required">This field is required</mat-error>
+
+        <mat-error *ngIf="password?.errors?.minlength">
+          Minimun password length is {{password?.errors?.minlength.requiredLength}} characters
+        </mat-error>
+
+
       </mat-form-field>
 
-      <button mat-raised-button color="primary">
+      <button mat-raised-button color="primary" [disabled]="!form.valid">
         Login
       </button>
 
