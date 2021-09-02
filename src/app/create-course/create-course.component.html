@@ -9,16 +9,16 @@
       <ng-template matStepLabel>Course landing page details</ng-template>
       <create-course-step-1 #step1></create-course-step-1>
       <div class="stepper-buttons">
-        <button mat-raised-button color="primary" matStepperNext>Continue to Step 2</button>
+        <button mat-raised-button color="primary" matStepperNext [disabled]="step1.form?.invalid">Continue to Step 2</button>
       </div>
     </mat-step>
 
-    <mat-step>
+    <mat-step [stepControl]="step2.form">
       <ng-template matStepLabel>Course pricing details</ng-template>
-      <create-course-step-2></create-course-step-2>
+      <create-course-step-2 #step2></create-course-step-2>
       <div class="stepper-buttons">
         <button mat-raised-button color="secondary" matStepperPrevious>Return to Step 1</button>
-        <button mat-raised-button color="primary" matStepperNext>Continue to Step 3</button>
+        <button mat-raised-button color="primary" matStepperNext [disabled]="step2.form?.invalid">Continue to Step 3</button>
       </div>
     </mat-step>
 

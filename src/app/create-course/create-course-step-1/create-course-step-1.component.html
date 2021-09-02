@@ -8,9 +8,7 @@
       This course already exist, please choose a different name
     </mat-error>
 
-    <mat-error *ngIf="courseTitle.errors?.minlength">
-      Too short
-    </mat-error>
+    <mat-error *ngIf="courseTitle.errors?.minlength"> Too short </mat-error>
   </mat-form-field>
 
   <mat-form-field>
@@ -27,12 +25,15 @@
     <mat-datepicker #releaseDatePicker></mat-datepicker>
   </mat-form-field>
 
-  <mat-checkbox class="primary" formControlName="downloadsAllowed">
-    Downloads Allowed?
-
-    <mat-error *ngIf="downloadsAllowed.errors?.required">This field is required</mat-error>
-
-  </mat-checkbox>
+  <mat-form-field>
+    <mat-select placeholder="Select Category" formControlName="category">
+      <ng-container *ngFor="let category of courseCategories$ | async">
+        <mat-option [value]="category.code">{{
+          category.description
+        }}</mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
 
   <mat-form-field appearance="outline">
     <textarea
@@ -40,7 +41,20 @@
       placeholder="Description"
       formControlName="textAreaDescription"
     ></textarea>
-    <mat-error *ngIf="textArea.errors?.minlength">The minimum length is {{textArea.errors.minlength.requiredLength}}</mat-error>
-    <mat-error *ngIf="textArea.errors?.required">This field is required</mat-error>
+    <mat-error *ngIf="textArea.errors?.minlength"
+      >The minimum length is
+      {{ textArea.errors.minlength.requiredLength }}</mat-error
+    >
+    <mat-error *ngIf="textArea.errors?.required"
+      >This field is required</mat-error
+    >
   </mat-form-field>
+
+  <mat-checkbox class="primary" formControlName="downloadsAllowed">
+    Downloads Allowed?
+  </mat-checkbox>
+</div>
+
+<div>
+  {{ form.value | json }}
 </div>
