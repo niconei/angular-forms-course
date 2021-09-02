@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { filter } from "rxjs/operators";
 import { createPromoRangeValidator } from "../../validators/date-range.validator";
 
 @Component({
@@ -29,13 +30,31 @@ export class CreateCourseStep2Component implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
+
+    const draft = localStorage.getItem("STEP_2");
+
+    if (draft) {
+      const formValues = JSON.parse(draft);
+      this.form.patchValue({
+        courseType: formValues.courseType,
+        price: formValues.price,
+        dateRangeStart: new Date(formValues.dateRangeStart),
+        dateRangeEnd: new Date(formValues.dateRangeEnd)
+      });
+    }
+
     this.form.valueChanges.subscribe((value) => {
+
       const priceControl = this.form.controls["price"];
       if (value.courseType === "free" && priceControl.enabled) {
+        // this.form.patchValue({price: 0}, {emitEvent: false})
         priceControl.disable({ emitEvent: false }); //Prevent infinte loop
       } else if (value.courseType === "premium" && priceControl.disabled) {
         priceControl.enable();
       }
+
+      localStorage.setItem("STEP_2", JSON.stringify(value));
+
     });
   }
 }

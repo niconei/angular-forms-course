@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { CoursesService } from "../../services/courses.service";
 import { Observable } from "rxjs";
 import { courseTitleValidator } from "../../validators/course-title.validator";
+import { filter } from "rxjs/operators";
 
 interface CourseCategory {
   code: string;
@@ -39,6 +40,15 @@ export class CreateCourseStep1Component implements OnInit {
 
   ngOnInit() {
     this.courseCategories$ = this.courses.findCourseCategories();
+    const draft = localStorage.getItem("STEP_1");
+
+    if (draft) {
+      this.form.setValue(JSON.parse(draft));
+    }
+
+    this.form.valueChanges.pipe(
+      filter(() => this.form.valid)
+    ).subscribe(value => localStorage.setItem("STEP_1", JSON.stringify(value)));
   }
 
   get courseTitle() {
