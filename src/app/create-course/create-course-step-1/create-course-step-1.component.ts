@@ -17,7 +17,10 @@ export class CreateCourseStep1Component implements OnInit {
       validators: [Validators.required, Validators.minLength(5), Validators.maxLength(60)],
       asyncValidators: [courseTitleValidator(this.courses)],
       updateOn: 'blur'
-    }]
+    }],
+    releaseDateAt: [new Date(), Validators.required],
+    downloadsAllowed: [false, [Validators.requiredTrue]],
+    textAreaDescription: ['', [Validators.required, Validators.minLength(3)]]
   })
   constructor(private fb: FormBuilder, private courses: CoursesService) {
 
@@ -28,6 +31,14 @@ export class CreateCourseStep1Component implements OnInit {
 
   get courseTitle() {
     return this.form?.controls['title'];
+  }
+
+  get textArea() {
+    return this.form?.controls['textAreaDescription'];
+  }
+
+  get downloadsAllowed() {
+    return this.form?.controls['downloadsAllowed'];
   }
 
 }

@@ -1,15 +1,46 @@
 <div [formGroup]="form">
-
   <mat-form-field>
-    <input matInput placeholder="Course title" formControlName="title" #title>
+    <input matInput placeholder="Course title" formControlName="title" #title />
 
-    <mat-hint align="end">
-      {{title.value.length}} / 60
-    </mat-hint>
+    <mat-hint align="end"> {{ title.value.length }} / 60 </mat-hint>
 
     <mat-error *ngIf="courseTitle.errors?.titleExist">
       This course already exist, please choose a different name
     </mat-error>
 
+    <mat-error *ngIf="courseTitle.errors?.minlength">
+      Too short
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Release date"
+      [matDatepicker]="releaseDatePicker"
+      formControlName="releaseDateAt"
+    />
+    <mat-datepicker-toggle
+      [for]="releaseDatePicker"
+      matSuffix
+    ></mat-datepicker-toggle>
+    <mat-datepicker #releaseDatePicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-checkbox class="primary" formControlName="downloadsAllowed">
+    Downloads Allowed?
+
+    <mat-error *ngIf="downloadsAllowed.errors?.required">This field is required</mat-error>
+
+  </mat-checkbox>
+
+  <mat-form-field appearance="outline">
+    <textarea
+      matInput
+      placeholder="Description"
+      formControlName="textAreaDescription"
+    ></textarea>
+    <mat-error *ngIf="textArea.errors?.minlength">The minimum length is {{textArea.errors.minlength.requiredLength}}</mat-error>
+    <mat-error *ngIf="textArea.errors?.required">This field is required</mat-error>
   </mat-form-field>
 </div>
