@@ -5,6 +5,20 @@
   </mat-radio-group>
 
   <mat-form-field>
-    <input type="number" placeholder="Price" matInput formControlName="price">
+    <input type="number" placeholder="Price" matInput formControlName="price" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Promtional Period</mat-label>
+    <mat-date-range-input [rangePicker]="promoPicker">
+      <input placeholder="Start date" matStartDate formControlName="dateRangeStart"/>
+      <input placeholder="End date" matEndDate formControlName="dateRangeEnd"/>
+    </mat-date-range-input>
+    <mat-error *ngIf="form.errors?.promoPeriod && form.dirty">The start date must be before the end date</mat-error>
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="promoPicker"
+    ></mat-datepicker-toggle>
+    <mat-date-range-picker #promoPicker></mat-date-range-picker>
   </mat-form-field>
 </div>
